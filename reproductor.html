@@ -1,0 +1,115 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor de Vídeo</title>
+    <script>
+        const videoList = [
+            ["arboles1", "arboles1.mp4", "arboles1.ogv"],
+            ["arboles2", "arboles2.mp4", "arboles2.ogv"],
+            ["rio", "rio.mp4", "rio.ogv"],
+            ["fuente", "fuente.mp4", "fuente.ogv"]
+        ];
+        
+        let videoPlayingIndex = 0;
+        function switchVideos(config){
+            console.log('switching video with ', config, 'when in ', videoPlayingIndex);
+            const {direction, videoIndex} = config;
+            
+            // cambios usando dirección
+            if (direction){
+                if (direction === "forward") {
+                    // si ya estamos al último video, salimos de la función
+                    if (videoPlayingIndex === videoList.length-1) 
+                       return
+                    else 
+                        videoPlayingIndex++
+                        
+                } else if (direction === "backwards") {
+                    // si ya estamos al primer video, salimos de la función
+                    if (videoPlayingIndex === 0) 
+                        return
+                    else
+                        videoPlayingIndex--
+                }
+                
+            // cambios usando índice
+            } else if (videoIndex || videoIndex === 0){
+                // si ya estamos al video del índice deseado, salimos de la función
+                if (videoIndex === videoPlayingIndex)
+                    return
+                else 
+                    videoPlayingIndex = videoIndex
+            }
+
+            media.pause();
+            video1.src = videoList[videoPlayingIndex][1];
+            video2.src = videoList[videoPlayingIndex][2];
+            media.load();
+            media.play();
+        }
+        
+        const heightPortion = 480*0.05;
+        const widthPortion = 720*0.05; 
+        function scale(type){
+            // cambios a menor
+            if (type === "smaller"){
+                if ((media.height - heightPortion > 0) && (media.width - widthPortion > 0)){
+                    media.height -= heightPortion;
+                    media.width -= widthPortion;
+                }
+
+            // cambios a mayor
+            } else if (type === "bigger") {
+                media.height += heightPortion;
+                media.width += widthPortion;
+            }
+        }
+
+        function takeSnapShot(){
+            let canvasContext = frame.getContext("2d");
+            canvasContext.drawImage(media, 0, 0, 480, 320);
+
+            var canvas = document.getElementById("frame");
+            var anchor = document.createElement("a");
+            anchor.href = canvas.toDataURL("image/png");
+            anchor.download = "IMAGE.PNG";
+            anchor.click();
+            //document.removeChild(docume.firstElementChild);
+        }
+
+    </script>
+</head>
+<body>
+    <section>
+        <video id="media" width="720" height="480" controls style="border: blue solid 2px;">
+            <source id="video1" src="arboles1.mp4" type="video/mp4">
+            <source id="video2" src="arboles1.ogv" type="video/ogg">
+        </video>
+        <ol id="lista">
+        </ol>
+        <button id="playPrev" onclick="switchVideos({direction:'backwards'})">Anterior Vídeo</button>
+        <button id="playNext" onclick="switchVideos({direction:'forward'})">Siguiente Vídeo</button>
+        <button id="scaleDown" onclick='scale("smaller")'>- tamaño</button>
+        <button id="scaleUp" onclick='scale("bigger")'>+ tamaño</button>
+        <button id="snapShot" onclick="takeSnapShot()">Captura Imagen</button>
+        <button id="snapShotAnchor" hidden></button>
+        <canvas id="frame" hidden width="720" height="480" style="border: red solid 2px;"></canvas>
+
+    </section>
+    <script>
+        console.log(videoList);
+        let list = document.getElementById("lista");
+        for (let i=0; i < videoList.length; i++){
+            let node = document.createElement("li");
+            let text = document.createTextNode(videoList[i][0]);
+            node.appendChild(text);
+            node.onclick = () => switchVideos({videoIndex: i});
+            list.appendChild(node);
+        }
+
+
+    </script>
+</body>
+</html>
