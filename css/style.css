@@ -173,9 +173,6 @@ button::before {
   white-space: pre;
 }
 
-button:hover::before {
-  display: inline-block;
-}
 
 /* .fullscreen-button {
   margin-right: 0;
@@ -347,4 +344,39 @@ svg {
   fill: #fff;
   stroke: #fff;
   cursor: pointer;
+}
+
+section#extra-controls {
+    position: fixed;
+    bottom: 0;
+}
+
+#current-title {
+  position: absolute;
+    right: 200px;
+    font-family: 'Calibri';
+    top: 34px;
+    color: white;
+    font-size: 18px;
+}
+
+#current-title:hover{
+  cursor: pointer;
+}
+
+
+button#playPrev {
+  position: absolute;
+  right: 131px;
+  top: 26px;
+}
+
+button#playNext {
+  position: absolute;
+  right: 102px;
+  top: 26px;
+}
+
+.floating-menu.titles-menu {
+  right: 170px;
 }

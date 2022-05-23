@@ -20,6 +20,8 @@ const speedMenu = document.querySelector('.speed-menu');
 const speedOptions = document.querySelectorAll('.speed-menu .f-menu-option');
 const subsButton = document.querySelector('.subs-button');
 const subsMenu = document.querySelector('.subs-menu');
+const currentTitle = document.querySelector('#current-title span');
+const titlesMenu = document.querySelector('.titles-menu');
 
 const videoList = [
     "arboles1",
@@ -28,6 +30,21 @@ const videoList = [
     "fuente"
 ];
 let videoPlayingIndex = 0;
+let selectedSubs = "es"; 
+
+/*** Preparación de opciones de vídeos ***/
+
+for (let i=0; i < videoList.length; i++){
+    let node = document.createElement("div");
+    node.classList.add('f-menu-option');
+    node.textContent = videoList[i];
+    node.onclick = () => {
+      switchVideos({videoIndex: i});
+      toggleTitlesMenu();
+    }
+    titlesMenu.appendChild(node);
+}
+/******************************************/
 
 // Si el navegador tiene compatibilidad con el vídeo, 
 // activamos los controles personalizados
@@ -222,7 +239,7 @@ speedOptions.forEach(option => {
 
 // Añadimos las opciones de subtítulos al menú
 for (var i = 0; i < video.textTracks.length; i++) {
-    // Añadimos al select los posibles subtítulos
+    // Añadimos los posibles subtítulos
     var curTrack = video.textTracks[i];
     var trackOpt = document.createElement('div');
     trackOpt.classList.add('f-menu-option');
@@ -243,8 +260,8 @@ function hideTracks() {
 
 // trackChange coge un evento y cambia los subtítulos
 // a la lengua asociada a la target de ese evento
-function trackChange(e) {
-    let language = e.target.getAttribute('data-language');
+function trackChange(e, lang) {
+    let language = e ?  e.target.getAttribute('data-language') : lang;
     console.log('changing to ', language);
     if(language === 'off') {
         hideTracks();
@@ -257,6 +274,7 @@ function trackChange(e) {
             }
         }
     }
+    selectedSubs = language; 
 }
 
 // toggleSpeedMenu muestra el menú de opciones de velocidades
@@ -273,3 +291,60 @@ subsOptions.forEach(option => {
     option.addEventListener('click', trackChange );
     option.addEventListener('click', toggleSubsMenu );
 });
+
+
+
+/*** Selector de vídeo ***/
+function switchVideos(config){
+    console.log('switching video with ', config, 'when in ', videoPlayingIndex);
+    const {direction, videoIndex} = config;
+    
+    // cambios usando dirección
+    if (direction){
+        if (direction === "forward") {
+            // si ya estamos al último video, salimos de la función
+            if (videoPlayingIndex === videoList.length-1) 
+            return
+            else 
+                videoPlayingIndex++
+                
+        } else if (direction === "backwards") {
+            // si ya estamos al primer video, salimos de la función
+            if (videoPlayingIndex === 0) 
+                return
+            else
+                videoPlayingIndex--
+        }
+        
+    // cambios usando índice
+    } else if (videoIndex || videoIndex === 0){
+        // si ya estamos al video del índice deseado, salimos de la función
+        if (videoIndex === videoPlayingIndex)
+            return
+        else 
+            videoPlayingIndex = videoIndex
+    }
+
+
+    video1.src = videoList[videoPlayingIndex] + ".mp4";
+    video2.src = videoList[videoPlayingIndex] + ".ogv";
+    esSubs.src = "subs/" + videoList[videoPlayingIndex] + "-es.vtt";
+    enSubs.src = "subs/" + videoList[videoPlayingIndex] + "-en.vtt";
+    trackChange(null, selectedSubs);
+    video.pause();
+    video.load();
+    video.play();
+    currentTitle.innerHTML = videoList[videoPlayingIndex];
+  
+}
+playPrev.addEventListener("click", ()=> switchVideos({direction:'backwards'}));
+playNext.addEventListener("click", ()=> switchVideos({direction:'forward'}));
+/********************************/
+
+// toggleTitlesMenu muestra el menú de opciones de vídeos
+// si está escondido, y si está visible lo esconde
+function toggleTitlesMenu() {
+    console.log('toggling titles menu')
+    titlesMenu.classList.toggle('hidden');
+}
+currentTitle.addEventListener('click', toggleTitlesMenu);
