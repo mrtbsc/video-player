@@ -4,12 +4,13 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Reproductor de Vídeo</title>
+        <title>VideoPlayer de Marta</title>
         <link rel="stylesheet" href="./css/normalize.css">
         <link rel="stylesheet" href="./css/style.css">
     </head>
 
     <body>
+        <h1>VideoPlayer de Marta Bosch Ramon</h1>
         <div class="container">
             <div id="video-container" class="video-container">
                 <div class="playback-animation" id="playback-animation">
@@ -91,6 +92,10 @@
                                 <span> / </span>
                                 <time id="duration">00:00</time>
                             </div>
+
+                            <button id="snapshot" onclick="takeSnapShot()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M512 144v288c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V144c0-26.5 21.5-48 48-48h88l12.3-32.9c7-18.7 24.9-31.1 44.9-31.1h125.5c20 0 37.9 12.4 44.9 31.1L376 96h88c26.5 0 48 21.5 48 48zM376 288c0-66.2-53.8-120-120-120s-120 53.8-120 120 53.8 120 120 120 120-53.8 120-120zm-32 0c0 48.5-39.5 88-88 88s-88-39.5-88-88 39.5-88 88-88 88 39.5 88 88z"></path></svg>
+                            </button>
                         </div>
 
                         <div class="right-controls">
@@ -120,25 +125,7 @@
                     </div>
                 </div>
 
-                <!-- CONTROLES INFERIORES EXTRA -->
-                <!-- <ol id="lista">
-                </ol> -->
-
-                <section id="extra-controls">
-
-                    <ol id="lista"></ol>
-                
-                
-                </section>
-                <!--<button id="scaleDown" onclick='scale("smaller")'>- tamaño</button>
-                <button id="scaleUp" onclick='scale("bigger")'>+ tamaño</button>
-                <button id="snapShot" onclick="takeSnapShot()">Captura Imagen</button>
-                <button id="snapShotAnchor" hidden></button>
-                <form>
-                    <select name="select">
-                    </select>
-                </form>
-                <canvas id="frame" width="720" height="480" style="border: red solid 2px;"></canvas> -->
+                <canvas id="frame" width="720" height="480"></canvas>
             </div><!-- #video-container.video-container -->
         </div><!-- .container -->
 

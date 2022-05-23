@@ -34,6 +34,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+    top: -140px;
 }
 
 video {
@@ -379,4 +380,22 @@ button#playNext {
 
 .floating-menu.titles-menu {
   right: 170px;
+}
+
+canvas {
+  display: none;
+}
+
+h1 {
+  text-align: center;
+}
+
+button#snapshot {
+    right: 452px;
+    position: absolute;
+    top: 29px;
+}
+
+#snapshot svg {
+    height: 22px;
 }
