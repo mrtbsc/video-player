@@ -11,6 +11,7 @@
 
     <body>
         <h1>VideoPlayer de Marta Bosch Ramon</h1>
+        <canvas id="frame" width="720" height="405"></canvas>
         <div class="container">
             <div id="video-container" class="video-container">
                 <div class="playback-animation" id="playback-animation">
@@ -21,7 +22,7 @@
                 </div>
 
 
-                <video id="video" width="720" height="480" controls>
+                <video id="video" width="720" height="auto" controls>
                     <source id="video1" src="arboles1.mp4" type="video/mp4">
                     <source id="video2" src="arboles1.ogv" type="video/ogg">
                     <track id="esSubs" kind="subtitles" label="Castellano" src="subs/arboles1-es.vtt" srclang="es" deafult>
@@ -93,12 +94,21 @@
                                 <time id="duration">00:00</time>
                             </div>
 
-                            <button id="snapshot" onclick="takeSnapShot()">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M512 144v288c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V144c0-26.5 21.5-48 48-48h88l12.3-32.9c7-18.7 24.9-31.1 44.9-31.1h125.5c20 0 37.9 12.4 44.9 31.1L376 96h88c26.5 0 48 21.5 48 48zM376 288c0-66.2-53.8-120-120-120s-120 53.8-120 120 53.8 120 120 120 120-53.8 120-120zm-32 0c0 48.5-39.5 88-88 88s-88-39.5-88-88 39.5-88 88-88 88 39.5 88 88z"></path></svg>
-                            </button>
                         </div>
 
                         <div class="right-controls">
+                            <button id="zoom-out" onclick="scale('smaller')" style="right: 360px;position: absolute;top: 30px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M304 192v32c0 6.6-5.4 12-12 12H124c-6.6 0-12-5.4-12-12v-32c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zm201 284.7L476.7 505c-9.4 9.4-24.6 9.4-33.9 0L343 405.3c-4.5-4.5-7-10.6-7-17V372c-35.3 27.6-79.7 44-128 44C93.1 416 0 322.9 0 208S93.1 0 208 0s208 93.1 208 208c0 48.3-16.4 92.7-44 128h16.3c6.4 0 12.5 2.5 17 7l99.7 99.7c9.3 9.4 9.3 24.6 0 34zM344 208c0-75.2-60.8-136-136-136S72 132.8 72 208s60.8 136 136 136 136-60.8 136-136z"></path></svg>
+                            </button>
+
+                            <button id="zoom-in" onclick="scale('bigger')" style="right: 331px;position: absolute;top: 30px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="height: 22px;"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M304 192v32c0 6.6-5.4 12-12 12h-56v56c0 6.6-5.4 12-12 12h-32c-6.6 0-12-5.4-12-12v-56h-56c-6.6 0-12-5.4-12-12v-32c0-6.6 5.4-12 12-12h56v-56c0-6.6 5.4-12 12-12h32c6.6 0 12 5.4 12 12v56h56c6.6 0 12 5.4 12 12zm201 284.7L476.7 505c-9.4 9.4-24.6 9.4-33.9 0L343 405.3c-4.5-4.5-7-10.6-7-17V372c-35.3 27.6-79.7 44-128 44C93.1 416 0 322.9 0 208S93.1 0 208 0s208 93.1 208 208c0 48.3-16.4 92.7-44 128h16.3c6.4 0 12.5 2.5 17 7l99.7 99.7c9.3 9.4 9.3 24.6 0 34zM344 208c0-75.2-60.8-136-136-136S72 132.8 72 208s60.8 136 136 136 136-60.8 136-136z"></path></svg>
+                            </button>
+
+                            <button id="snapshot" onclick="takeSnapShot()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M512 144v288c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V144c0-26.5 21.5-48 48-48h88l12.3-32.9c7-18.7 24.9-31.1 44.9-31.1h125.5c20 0 37.9 12.4 44.9 31.1L376 96h88c26.5 0 48 21.5 48 48zM376 288c0-66.2-53.8-120-120-120s-120 53.8-120 120 53.8 120 120 120 120-53.8 120-120zm-32 0c0 48.5-39.5 88-88 88s-88-39.5-88-88 39.5-88 88-88 88 39.5 88 88z"></path></svg>
+                            </button>
+
                             <div id="current-title">
                                 <span>arboles1</span>
                             </div>
@@ -125,7 +135,6 @@
                     </div>
                 </div>
 
-                <canvas id="frame" width="720" height="480"></canvas>
             </div><!-- #video-container.video-container -->
         </div><!-- .container -->
 

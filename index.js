@@ -22,6 +22,7 @@ const subsButton = document.querySelector('.subs-button');
 const subsMenu = document.querySelector('.subs-menu');
 const currentTitle = document.querySelector('#current-title span');
 const titlesMenu = document.querySelector('.titles-menu');
+const canvas = document.getElementById('frame');
 
 const videoList = [
     "arboles1",
@@ -350,28 +351,30 @@ function toggleTitlesMenu() {
 currentTitle.addEventListener('click', toggleTitlesMenu);
 
 /*** Cambio de medidas del vídeo ***/
-const heightPortion = 480*0.05;
 const widthPortion = 720*0.05; 
 function scale(type){
     // cambios a menor
     if (type === "smaller"){
-        if ((video.height - heightPortion > 0) && (video.width - widthPortion > 0)){
-            video.height -= heightPortion;
+        if (video.width - widthPortion > 0){
             video.width -= widthPortion;
+            console.log('entra a smaller');
         }
 
     // cambios a mayor
     } else if (type === "bigger") {
-        video.height += heightPortion;
         video.width += widthPortion;
+        console.log('entra a bigger');
     }
+
+    canvas.width = video.width;
+    canvas.height = video.width * 405 / 720;
 }
 /*********************************/
 
 /*** Captura de instantánea ***/
 function takeSnapShot(){
     let canvasContext = frame.getContext("2d");
-    canvasContext.drawImage(video, 0, 0, video.width, video.height);
+    canvasContext.drawImage(video, 0, 0, video.width, video.width * 405 / 720);
 
     var canvas = document.getElementById("frame");
     var anchor = document.createElement("a");

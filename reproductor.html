@@ -122,19 +122,16 @@
 
 
             /*** Cambio de medidas del vídeo ***/
-            const heightPortion = 480*0.05;
             const widthPortion = 720*0.05; 
             function scale(type){
                 // cambios a menor
                 if (type === "smaller"){
                     if ((media.height - heightPortion > 0) && (media.width - widthPortion > 0)){
-                        media.height -= heightPortion;
                         media.width -= widthPortion;
                     }
 
                 // cambios a mayor
                 } else if (type === "bigger") {
-                    media.height += heightPortion;
                     media.width += widthPortion;
                 }
             }
